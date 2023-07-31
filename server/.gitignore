@@ -1,0 +1,6 @@
+bin/
+venv/
+include/
+lib/
+share/
+lib64/
