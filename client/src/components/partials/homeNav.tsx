@@ -1,4 +1,3 @@
-
 import "../homeStyles.css";
 import { NavLink } from "react-router-dom";
 export default function RootNav() {
@@ -17,9 +16,11 @@ export default function RootNav() {
           <NavLink to="/signup" className="sign-up p-1 md:p-3 shadow-sm ml-1">
             Sign Up
           </NavLink>
+          <NavLink to="/profile" className="profile p-1 md:p-3 shadow-sm">
+            Profile
+          </NavLink>
         </div>
       </nav>
     </>
   );
 }
-
