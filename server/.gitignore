@@ -5,3 +5,5 @@ lib/
 share/
 lib64/
 __pycache__/
+Data
+.gitignore
