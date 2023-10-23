@@ -19,5 +19,5 @@ python -m venv venv
 source venv/bin/activate (for mac)
 venv\Scripts\activate (for windows)
 pip install -r requirements.txt
-python app.py
+flask run
 ```
