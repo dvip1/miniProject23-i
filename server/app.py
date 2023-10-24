@@ -21,6 +21,8 @@ app.register_blueprint(getData_api)
 app.register_blueprint(sign_in_api)
 app.register_blueprint(sign_out_api)    
 app.register_blueprint(is_authenticated_api)    
+from api.getCompData import getCompanyNames_api
+app.register_blueprint(getCompanyNames_api)
 
 if __name__ == "__main__":
     app.run(debug=True)
