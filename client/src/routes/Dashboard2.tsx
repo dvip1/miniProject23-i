@@ -113,7 +113,7 @@ const Dashboard2 = () => {
           <option value="">Select Company</option>
           {companyNames?.map((companyName: any) => (
             <option key={companyName.SYMBOL} value={companyName.SYMBOL}>
-              {companyName.SYMBOL}
+              {companyName.SYMBOL}, {companyName["NAME OF COMPANY"]}
             </option>
           ))}
         </select>
