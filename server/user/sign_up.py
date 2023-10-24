@@ -5,7 +5,6 @@ from user.models import User
 def sign_up():
     user = User()
     return user.signup()
-
 @sign_up_api.route('/sign_up', methods=['OPTIONS'])
 def sign_up_preflight():
     return jsonify({'success': True}), 200, {'ContentType': 'application/json'}

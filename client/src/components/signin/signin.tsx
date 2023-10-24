@@ -1,59 +1,47 @@
 import axios from "axios";
 import { useState } from "react";
-import {  useNavigate } from "react-router";
+import { useNavigate } from "react-router";
+const SignIn = ({ }) => {
+  const navigate = useNavigate();
 
-const SignUp = () => {
   const [userData, setUserData] = useState({
     email: "",
     password: "",
   });
-  const navigate = useNavigate();
   const [errorMessage, setErrorMessage] = useState("");
-  
-  const handleSubmit = async (event: any) => {
+
+  const handleSubmit = (event: any) => {
     event.preventDefault();
-    try {
-      const response = await axios.post(
-        "http://localhost:5000/sign_up",
-        JSON.stringify(userData),
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-          withCredentials: true,
+    axios.post('http://localhost:5000/sign_in', JSON.stringify(userData), {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      withCredentials: true,
+    })
+      .then(response => {
+        console.log(response);
+        if(response.status===200){
+          console.log("User is authenticated");
+          navigate("/profile");
+          setErrorMessage("");
+        }else if(response.status===401){
+          setErrorMessage("User not authenticated");
         }
-      );
-      if (response.data === "User created") {  // Check response.data directly
-        console.log("User created");
-        navigate("/profile");
-      }
-      console.log(response);
-    } catch (error: any) {
-      if (error.response) {
-        if (error.response.data.error === "User already exists") {
-          setErrorMessage("User already exists");
-        } else {
-          setErrorMessage("An error occurred");
-        }
-      } else if (error.request) {
-        console.log(error.request);
+      })
+      .catch(error => {
         setErrorMessage("An error occurred");
-      } else {
-        console.log("Error", error.message);
-        setErrorMessage("An error occurred");
-      }
-    }
-  };
-  
+        console.log(error);
+       
+      });
+  }
 
   const handleInputChange = (event: any) => {
     const { name, value } = event.target;
-    setUserData((prevState) => ({
+    setUserData(prevState => ({
       ...prevState,
-      [name]: value,
+      [name]: value
     }));
-  };
-
+  }
 
   return (
     <div>
@@ -63,7 +51,7 @@ const SignUp = () => {
             href="#"
             className="flex items-center mb-6 text-2xl font-semibold text-gray-900"
           >
-            TradeVista
+            Sign in
           </a>
           <div className="w-full  rounded-lg shadow-md dark:border md:mt-0 sm:max-w-md xl:p-0 bg-purple-500 border-none  shadow-black">
             <div className="p-6 space-y-4 md:space-y-6 sm:p-8">
@@ -101,7 +89,6 @@ const SignUp = () => {
                     id="password"
                     placeholder="••••••••"
                     className="bg-white border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-purple-600 focus:border-purple-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                    value={userData.password}
                     onChange={handleInputChange}
                   />
                 </div>
@@ -137,7 +124,7 @@ const SignUp = () => {
                 >
                   Sign up
                 </button>
-                <p className="text-red-800">{errorMessage}</p>
+                <p className="text-red-900">{errorMessage}</p>
               </form>
             </div>
           </div>
@@ -146,4 +133,4 @@ const SignUp = () => {
     </div>
   );
 };
-export default SignUp;
+export default SignIn;

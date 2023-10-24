@@ -14,18 +14,17 @@ class User:
                 return jsonify({'error': 'Missing email or password'}), 400
 
             if db.users.find_one({'email': email}):
-                return jsonify({'error': 'Email address already in use'}), 400
+                return jsonify({'error': 'User already exists'}), 400
 
             user = {
                 '_id': uuid.uuid4().hex,
                 'email': email,
                 'password': pbkdf2_sha256.hash(password),
             }
-
             if db.users.insert_one(user):
                 session['user_id'] = user['_id']  # Store user ID in session
                 user.pop('password', None)  # Remove password before returning user
-                return jsonify(user), 200
+                return jsonify('User created'), 200
 
             return jsonify({'error': 'Signup failed'}), 400
         except Exception as e:
@@ -50,6 +49,7 @@ class User:
             return jsonify({'error': 'Invalid login credentials'}), 401
         except Exception as e:
             return jsonify({'error': str(e)}), 500
+        
     def is_authenticated(self):
         try:
             if 'user_id' in session:
