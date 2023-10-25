@@ -19,7 +19,7 @@ const Dashboard2 = () => {
 
     const chart = createChart(chartContainerRef.current, {
       width: 1200,
-      height: 600,
+      height: 700,
       layout: {
         background: {
           type: "solid",
@@ -118,7 +118,7 @@ const Dashboard2 = () => {
           ))}
         </select>
         <button
-          className="p-3 ml-2 rounded-md shadow-md bg-gradient-to-r from-red-300 to-red-700 text-white font-bold"
+          className="p-3 ml-2 rounded-xl shadow-md bg-slate-700 text-white font-bold"
           onClick={() => fetchData(`${selectedCompany}`)}
         >
           Get Data
