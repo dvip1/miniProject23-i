@@ -1,5 +1,5 @@
 import "../components/homeStyles.css";
-import HomeNav from "../components/partials/homeNav";
+
 export default function Home() {
   const fetchData = async (buttonValue: string) => {
     const response = await fetch("http://localhost:5000/get_data", {
@@ -17,20 +17,21 @@ export default function Home() {
   return (
     <>
       <div className="my-container">
-        <HomeNav />
         <div className="center">
           <h1>Welcome to TradeVista</h1>
-          <p className="description">Your gateway to Financial Proficiency</p>
+          <p className="description text-3xl">
+            Your gateway to Financial Proficiency
+          </p>
           <div className="info">
-            <p>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit.
-              Dignissimos animi unde iure, vitae illum eligendi excepturi
-              quaerat similique. Sapiente dolorum, earum eveniet exercitationem
-              facilis ipsam voluptate aliquid corporis autem sint?
-            </p>
-            <p>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Maxime
-              reprehenderit fugiat ad voluptatem, odio{" "}
+            <p className="text-white text-xl font-bold">
+              Your gateway to a risk-free and educational trading experience.
+              Our paper trading app combines cutting-edge technology with a
+              user-friendly interface to help you hone your investment skills,
+              explore financial markets, and make informed decisions without
+              risking real capital. Whether you're a novice or an experienced
+              trader, Catalyst Trading provides a realistic trading environment,
+              educational resources, real-time market data, and risk management
+              tools to support your financial growth.
             </p>
           </div>
           <button onClick={() => fetchData("AAPL")}>Test Button</button>

@@ -4,7 +4,7 @@ import candleStick from "../../assets/candlestick-svgrepo-com.svg";
 export default function RootNav() {
   return (
     <>
-      <nav>
+      <nav className="bg-gradient-to-r from-purple-300 to-purple-500">
         <div className="flex justify-start">
           <a href="#" className="navBrand">
             <span className="bold">trade</span>vista
