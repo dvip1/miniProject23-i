@@ -6,6 +6,7 @@ from user.sign_up import sign_up_api
 from user.sign_in import sign_in_api
 from user.sign_out import sign_out_api
 from user.isAuthenticated import is_authenticated_api
+from api.getCompData import getCompanyNames_api
 import secrets
 from datetime import timedelta
 
@@ -21,7 +22,6 @@ app.register_blueprint(getData_api)
 app.register_blueprint(sign_in_api)
 app.register_blueprint(sign_out_api)    
 app.register_blueprint(is_authenticated_api)    
-from api.getCompData import getCompanyNames_api
 app.register_blueprint(getCompanyNames_api)
 
 if __name__ == "__main__":
