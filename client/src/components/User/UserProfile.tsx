@@ -3,7 +3,6 @@ import axios from "axios";
 import { useNavigate } from "react-router";
 import { useEffect, useState } from "react";
 import Loading from "../loading";
-import { NavLink } from "react-router-dom";
 import { useSelector } from "react-redux";
 const UserProfile = () => {
   const navigate = useNavigate();
@@ -42,53 +41,14 @@ const UserProfile = () => {
     checkAuth();
   }, []);
 
-  const handleLogout = async () => {
-    try {
-      const response = await axios.post(
-        "http://localhost:5000/sign_out",
-        {},
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-          withCredentials: true,
-        }
-      );
-      if (response.status === 200) {
-        console.log("User logged out");
-        navigate("/");
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
   if (loading) {
     return <Loading />;
   }
 
   return (
     <>
-      <nav className="flex items-center justify-between flex-wrap bg-purple-500 p-6">
-        <div className="flex items-center flex-shrink-0 text-white mr-6">
-          <span className="font-semibold text-xl tracking-tight">
-            Tradevista
-          </span>
-        </div>
-        <div className="w-full block flex-grow lg:flex lg:items-center lg:w-auto">
-          <div className="text-sm lg:flex-grow"></div>
-          <div>
-            <button
-              className="inline-block text-sm px-4 py-2 leading-none border rounded text-white border-white hover:border-transparent hover:text-purple-500 hover:bg-white mt-4 lg:mt-0"
-              onClick={handleLogout}
-            >
-              Log out
-            </button>
-            <NavLink to="/dashboard">DashBoard</NavLink>
-          </div>
-        </div>
-      </nav>
-      <div className="flex flex-col items-center bg-gradient-to-r from-purple-500 to-pink-500 py-12 px-4 sm:px-6 lg:px-8 min-h-screen">
+    
+      <div className="flex flex-col items-center bg-gradient-to-b from-blue-500 to-white py-12 px-4 sm:px-6 lg:px-8 min-h-screen">
         <div className="max-w-md w-full space-y-8">
           <div>
             <img className="mx-auto  w-[14vw]" src={avatar} alt="User Avatar" />

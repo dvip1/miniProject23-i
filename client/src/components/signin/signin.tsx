@@ -20,18 +20,18 @@ const SignIn = ({ }) => {
     })
       .then(response => {
         console.log(response);
-        if(response.status===200){
+        if (response.status === 200) {
           console.log("User is authenticated");
           navigate("/profile");
           setErrorMessage("");
-        }else if(response.status===401){
+        } else if (response.status === 401) {
           setErrorMessage("User not authenticated");
         }
       })
       .catch(error => {
         setErrorMessage("An error occurred");
         console.log(error);
-       
+
       });
   }
 
@@ -49,20 +49,20 @@ const SignIn = ({ }) => {
         <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
           <a
             href="#"
-            className="flex items-center mb-6 text-2xl font-semibold text-gray-900"
+            className="flex items-center mb-6 text-2xl font-semibold text-slate-700"
           >
-            Sign in
+            Welcome Back!
           </a>
-          <div className="w-full  rounded-lg shadow-md dark:border md:mt-0 sm:max-w-md xl:p-0 bg-purple-500 border-none  shadow-black">
+          <div className="w-full  rounded-lg shadow-md dark:border md:mt-0 sm:max-w-md xl:p-0  border-none  " style={{ background: 'linear-gradient(135deg, rgba(255,255,255,0.1), #D0E7D2' }}>
             <div className="p-6 space-y-4 md:space-y-6 sm:p-8">
-              <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
-                Sign up for an account
+              <h1 className="text-lg font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-slate-700">
+                Sign in to your account
               </h1>
               <form className="space-y-4 md:space-y-6" onSubmit={handleSubmit}>
                 <div>
                   <label
                     htmlFor="email"
-                    className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                    className="block mb-2 text-sm font-medium text-gray-900 dark:text-black"
                   >
                     Your email
                   </label>
@@ -70,7 +70,7 @@ const SignIn = ({ }) => {
                     type="email"
                     name="email"
                     id="email"
-                    className="bg-white border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-purple-600 focus:border-purple-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                    className="bg-white border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500"
                     placeholder="name@company.com"
                     value={userData.email}
                     onChange={handleInputChange}
@@ -79,7 +79,7 @@ const SignIn = ({ }) => {
                 <div>
                   <label
                     htmlFor="password"
-                    className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                    className="block mb-2 text-sm font-medium text-gray-900 dark:text-black"
                   >
                     Password
                   </label>
@@ -88,7 +88,7 @@ const SignIn = ({ }) => {
                     name="password"
                     id="password"
                     placeholder="••••••••"
-                    className="bg-white border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-purple-600 focus:border-purple-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                    className="bg-white border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500"
                     onChange={handleInputChange}
                   />
                 </div>
@@ -99,13 +99,13 @@ const SignIn = ({ }) => {
                         id="remember"
                         aria-describedby="remember"
                         type="checkbox"
-                        className="w-4 h-4 border border-gray-300 rounded bg-white focus:ring-3 focus:ring-purple-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-purple-600 dark:ring-offset-gray-800"
+                        className="w-4 h-4 border border-gray-300 rounded bg-white focus:ring-3 focus:ring-blue-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-blue-500 dark:ring-offset-gray-800"
                       />
                     </div>
                     <div className="ml-3 text-sm">
                       <label
                         htmlFor="remember"
-                        className="text-gray-500 dark:text-gray-300"
+                        className="text-gray-500 dark:text-gray-500"
                       >
                         Remember me
                       </label>
@@ -113,16 +113,16 @@ const SignIn = ({ }) => {
                   </div>
                   <a
                     href="#"
-                    className="text-sm font-medium text-purple-600 hover:underline dark:text-purple-500"
+                    className="text-sm font-medium text-blue-500 hover:underline dark:text-slate-700"
                   >
                     Forgot password?
                   </a>
                 </div>
                 <button
                   type="submit"
-                  className="w-full text-white bg-purple-600 hover:bg-purple-700 focus:ring-4 focus:outline-none focus:ring-purple-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-purple-600 dark:hover-bg-purple-700 dark:focus:ring-purple-800"
+                  className="w-fit text-black bg-blue-500 hover:bg-blue-700 focus:ring-4 focus:outline-none font-medium rounded-2xl text-sm px-5 py-2.5 text-center dark:bg-blue-500 dark:hover-bg-blue-700 "
                 >
-                  Sign up
+                  sign in
                 </button>
                 <p className="text-red-900">{errorMessage}</p>
               </form>
