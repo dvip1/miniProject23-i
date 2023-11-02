@@ -1,4 +1,5 @@
 import "../components/homeStyles.css";
+import { NavLink } from 'react-router-dom';
 
 export default function Home() {
   const fetchData = async (buttonValue: string) => {
@@ -16,27 +17,18 @@ export default function Home() {
   };
   return (
     <>
-      <div className="my-container">
-        <div className="center">
-          <h1>Welcome to TradeVista</h1>
-          <p className="description text-3xl">
-            Your gateway to Financial Proficiency
-          </p>
-          <div className="info">
-            <p className="text-white text-xl font-bold">
-              Your gateway to a risk-free and educational trading experience.
-              Our paper trading app combines cutting-edge technology with a
-              user-friendly interface to help you hone your investment skills,
-              explore financial markets, and make informed decisions without
-              risking real capital. Whether you're a novice or an experienced
-              trader, Catalyst Trading provides a realistic trading environment,
-              educational resources, real-time market data, and risk management
-              tools to support your financial growth.
-            </p>
+      <section className="my-container">
+        <div className="  center ">
+          <div className="text-center">
+            <h1 className="text-5xl text-white mb-0 pb-0">TradeVista</h1>
+            <p className="text-base text-slate-700 mt-3 p-0">Your one-stop shop for risk-free trading education..</p>
+            <div className="mt-6">
+              <NavLink to="signup" className="inline-block mx-4 py-2 px-4 text-lg text-white bg-blue-500 rounded-3xl hover:bg-blue-700 ">Sign Up</NavLink>
+              <NavLink to="signin" className="inline-block mx-4 py-2 px-4 text-lg text-white bg-blue-500 rounded-3xl hover:bg-blue-700">Sign In</NavLink>
+            </div>
           </div>
-          <button onClick={() => fetchData("AAPL")}>Test Button</button>
         </div>
-      </div>
+      </section>
     </>
   );
 }
