@@ -1,5 +1,8 @@
 import { createChart, CrosshairMode } from "lightweight-charts";
 import { useEffect, useRef, useState } from "react";
+import { useDispatch } from "react-redux";
+import { setSelectedStocks } from "../slices/selectedStocksSlice";
+
 const Dashboard2 = () => {
   // const backgroundColor = "white";
   // const lineColor = "#2962FF";
@@ -7,8 +10,10 @@ const Dashboard2 = () => {
   // const areaTopColor = "#2962FF";
   // const areaBottomColor = "rgba(41, 98, 255, 0.28)";
   const [Data, setData] = useState();
-  const [companyNames, setCompanyNames] = useState<any>();
+  const [companyNames, setCompanyNames] = useState<Array<string>>();
   const [selectedCompany, setSelectedCompany] = useState<string>();
+  const [buyDetails, setBuyDetails] = useState();
+  const dispatch = useDispatch();
 
   const chartContainerRef = useRef<any>();
 
@@ -19,7 +24,7 @@ const Dashboard2 = () => {
 
     const chart = createChart(chartContainerRef.current, {
       width: 1200,
-      height: 600,
+      height: 700,
       layout: {
         background: {
           type: "solid",
@@ -64,7 +69,7 @@ const Dashboard2 = () => {
         .then((response) => response.json())
         .then((data) => {
           const parsedData = JSON.parse(data.data);
-          console.log(parsedData);
+          //   console.log(parsedData);
           setCompanyNames(parsedData);
         });
     };
@@ -84,7 +89,7 @@ const Dashboard2 = () => {
       .then((response) => response.json())
       .then((data) => {
         const parsedData = JSON.parse(data.data);
-        console.log(parsedData);
+        //    console.log(parsedData);
         const cdata = parsedData.map((d: any) => {
           const date = new Date(d.Date);
           const formattedDate = date.toISOString().split("T")[0];
@@ -97,8 +102,18 @@ const Dashboard2 = () => {
           };
         });
         setData(cdata);
-        console.log(cdata);
       });
+  };
+
+  const buyStock = () => {
+    console.log(Data[Data.length - 1]);
+    const stockDetails = {
+      stockName: selectedCompany,
+      price: Data[Data.length - 1].low,
+      date: Data[Data.length - 1].time,
+    };
+    dispatch(setSelectedStocks(stockDetails));
+    console.log(stockDetails);
   };
   return (
     <div className="bg-[#343232] h-full">
@@ -118,10 +133,16 @@ const Dashboard2 = () => {
           ))}
         </select>
         <button
-          className="p-3 ml-2 rounded-md shadow-md bg-gradient-to-r from-red-300 to-red-700 text-white font-bold"
+          className="p-3 ml-2 rounded-xl shadow-md bg-slate-700 text-white font-bold"
           onClick={() => fetchData(`${selectedCompany}`)}
         >
           Get Data
+        </button>
+        <button
+          className="p-3 ml-2 rounded-xl shadow-md bg-green-600 text-white font-bold"
+          onClick={buyStock}
+        >
+          Buy
         </button>
       </div>
       <div className="min-h-screen min-w-[100vw] flex justify-center items-center -translate-y-2">

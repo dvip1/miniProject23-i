@@ -3,11 +3,15 @@ import axios from "axios";
 import { useNavigate } from "react-router";
 import { useEffect, useState } from "react";
 import Loading from "../loading";
-
+import { NavLink } from "react-router-dom";
+import { useSelector } from "react-redux";
 const UserProfile = () => {
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [loading, setLoading] = useState(true); // Initialize loading state
+  const purchasedStocks = useSelector(
+    (state: any) => state.selectedStocks.data
+  );
 
   const checkAuth = async () => {
     try {
@@ -36,6 +40,7 @@ const UserProfile = () => {
 
   useEffect(() => {
     checkAuth();
+    console.log(purchasedStocks);
   }, []);
 
   const handleLogout = async () => {
@@ -80,6 +85,7 @@ const UserProfile = () => {
             >
               Log out
             </button>
+            <NavLink to="/dashboard">DashBoard</NavLink>
           </div>
         </div>
       </nav>
@@ -115,7 +121,21 @@ const UserProfile = () => {
         <div className="mt-5">
           <p className="text-3xl font-extrabold">My Stocks</p>
           <div className="bg-white min-h-[50vh] w-[60vw] rounded-xl">
-            Stocks Lists
+            <div className="flex flex-col">
+              {purchasedStocks.map((stock) => {
+                return (
+                  <div className="grid grid-cols-3">
+                    <p className="text-xl font-bold text-center m-1">
+                      {stock.stockName}
+                    </p>
+                    <p className="text-xl text-green-400 text-center m-1">
+                      ₹{stock.price}
+                    </p>
+                    <p className="text-xl text-center m-1">{stock.date}</p>
+                  </div>
+                );
+              })}
+            </div>
           </div>
         </div>
       </div>

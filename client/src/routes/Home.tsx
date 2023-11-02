@@ -1,5 +1,6 @@
 import "../components/homeStyles.css";
-import HomeNav from "../components/partials/homeNav";
+import { NavLink } from 'react-router-dom';
+
 export default function Home() {
   const fetchData = async (buttonValue: string) => {
     const response = await fetch("http://localhost:5000/get_data", {
@@ -16,26 +17,18 @@ export default function Home() {
   };
   return (
     <>
-      <div className="my-container">
-        <HomeNav />
-        <div className="center">
-          <h1>Welcome to TradeVista</h1>
-          <p className="description">Your gateway to Financial Proficiency</p>
-          <div className="info">
-            <p>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit.
-              Dignissimos animi unde iure, vitae illum eligendi excepturi
-              quaerat similique. Sapiente dolorum, earum eveniet exercitationem
-              facilis ipsam voluptate aliquid corporis autem sint?
-            </p>
-            <p>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Maxime
-              reprehenderit fugiat ad voluptatem, odio{" "}
-            </p>
+      <section className="my-container">
+        <div className="  center ">
+          <div className="text-center">
+            <h1 className="text-5xl text-white mb-0 pb-0">TradeVista</h1>
+            <p className="text-base text-slate-700 mt-3 p-0">Your one-stop shop for risk-free trading education..</p>
+            <div className="mt-6">
+              <NavLink to="signup" className="inline-block mx-4 py-2 px-4 text-lg text-white bg-blue-500 rounded-3xl hover:bg-blue-700 ">Sign Up</NavLink>
+              <NavLink to="signin" className="inline-block mx-4 py-2 px-4 text-lg text-white bg-blue-500 rounded-3xl hover:bg-blue-700">Sign In</NavLink>
+            </div>
           </div>
-          <button onClick={() => fetchData("AAPL")}>Test Button</button>
         </div>
-      </div>
+      </section>
     </>
   );
 }
