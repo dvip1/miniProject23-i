@@ -40,6 +40,7 @@ const UserProfile = () => {
 
   useEffect(() => {
     checkAuth();
+    console.log(purchasedStocks);
   }, []);
 
   const handleLogout = async () => {
@@ -120,7 +121,21 @@ const UserProfile = () => {
         <div className="mt-5">
           <p className="text-3xl font-extrabold">My Stocks</p>
           <div className="bg-white min-h-[50vh] w-[60vw] rounded-xl">
-            Stocks Lists {!purchasedStocks?.stockName}
+            <div className="flex flex-col">
+              {purchasedStocks.map((stock) => {
+                return (
+                  <div className="grid grid-cols-3">
+                    <p className="text-xl font-bold text-center m-1">
+                      {stock.stockName}
+                    </p>
+                    <p className="text-xl text-green-400 text-center m-1">
+                      ₹{stock.price}
+                    </p>
+                    <p className="text-xl text-center m-1">{stock.date}</p>
+                  </div>
+                );
+              })}
+            </div>
           </div>
         </div>
       </div>
