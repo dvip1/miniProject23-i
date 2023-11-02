@@ -56,20 +56,27 @@ export default function RootNav() {
 
   return (
     <>
-      <div className="bg-blue-500 flex justify-center ">
-        <nav className="container max-w-3xl">
-          <NavLink to='/'>
-            <div className="flex justify-start">
-              <span className="text-xl sm:text-3xl uppercase">
-                <span className="bold">trade</span>vista
-              </span>
-            </div>
+
+      <nav className="bg-blue-500">
+        <div className="flex justify-start">
+          <NavLink to="/" className="navBrand">
+            <span className="bold">trade</span>vista
           </NavLink>
-          <div className="flex justify-center items-center">
-            <NavLink
-              to="/profile"
-              className="shadow-sm   flex justify-center items-center ml-2 p-1 md:p-3 bg-[#D0E7D2] rounded-full mx-1"
-            >
+        </div>
+        <div className="flex justify-center items-center">
+          <NavLink
+            to="/profile"
+            className="shadow-sm   flex justify-center items-center ml-2 p-1 md:p-3 bg-[#89CFF3] rounded-full mx-1"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              strokeWidth="1.5"
+              stroke="currentColor"
+              className="w-10 h-10"
+
+            />
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
@@ -101,7 +108,6 @@ export default function RootNav() {
               : null}
           </div>
         </nav>
-      </div>
     </>
   );
 }
