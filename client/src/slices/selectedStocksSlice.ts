@@ -1,7 +1,13 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 const initialState = {
-  data: null,
+  data: [
+    {
+      stockName: "Company",
+      price: "Purchase",
+      date: "Date",
+    },
+  ],
 };
 
 export const selectedStocksSlice = createSlice({
@@ -9,7 +15,7 @@ export const selectedStocksSlice = createSlice({
   initialState,
   reducers: {
     setSelectedStocks: (state, action: PayloadAction<any>) => {
-      state.data = action.payload;
+      state.data.push(action.payload);
     },
   },
 });

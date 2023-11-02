@@ -6,12 +6,11 @@ export default function RootNav() {
     <>
       <nav className="bg-blue-500">
         <div className="flex justify-start">
-          <a href="#" className="navBrand">
+          <NavLink to="/" className="navBrand">
             <span className="bold">trade</span>vista
-          </a>
+          </NavLink>
         </div>
         <div className="flex justify-center items-center">
-        
           <NavLink
             to="/profile"
             className="shadow-sm   flex justify-center items-center ml-2 p-1 md:p-3 bg-[#89CFF3] rounded-full mx-1"
