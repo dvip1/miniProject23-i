@@ -4,22 +4,17 @@ import candleStick from "../../assets/candlestick-svgrepo-com.svg";
 export default function RootNav() {
   return (
     <>
-      <nav className="bg-gradient-to-r from-purple-300 to-purple-500">
+      <nav className="bg-blue-500">
         <div className="flex justify-start">
           <a href="#" className="navBrand">
             <span className="bold">trade</span>vista
           </a>
         </div>
         <div className="flex justify-center items-center">
-          <NavLink to="signin" className="sign-in p-1 md:p-3 shadow-sm">
-            Sign In
-          </NavLink>
-          <NavLink to="/signup" className="sign-up p-1 md:p-3 shadow-sm ml-1">
-            Sign Up
-          </NavLink>
+        
           <NavLink
             to="/profile"
-            className="shadow-sm text-white  flex justify-center items-center"
+            className="shadow-sm   flex justify-center items-center ml-2 p-1 md:p-3 bg-[#89CFF3] rounded-full mx-1"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -38,7 +33,7 @@ export default function RootNav() {
           </NavLink>
           <NavLink
             to="/dashboard"
-            className="profile p-1 md:p-3 shadow-sm bg-gradient-to-r from-green-300 to-green-600 rounded-full text-white mx-1"
+            className="profile p-3 md:p-5 shadow-sm bg-[#89CFF3] rounded-full text-white mx-1"
           >
             <img src={candleStick} alt="" className="h-6 w-6" />
           </NavLink>

@@ -5,7 +5,6 @@ import { useEffect, useState } from "react";
 import Loading from "../loading";
 import { NavLink } from "react-router-dom";
 import { useSelector } from "react-redux";
-
 const UserProfile = () => {
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
