@@ -1,6 +1,6 @@
 import { createChart, CrosshairMode } from "lightweight-charts";
 import { useEffect, useRef, useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { setSelectedStocks } from "../slices/selectedStocksSlice";
 
 const Dashboard2 = () => {
@@ -16,6 +16,8 @@ const Dashboard2 = () => {
   const dispatch = useDispatch();
 
   const chartContainerRef = useRef<any>();
+
+  const purchasedStocks = useSelector((state) => state.selectedStocks.data);
 
   useEffect(() => {
     const handleResize = () => {
@@ -115,6 +117,10 @@ const Dashboard2 = () => {
     dispatch(setSelectedStocks(stockDetails));
     console.log(stockDetails);
   };
+
+  const sellStock = () => {
+    console.log(Data);
+  };
   return (
     <div className="bg-[#343232] h-full">
       <div className="p-2 pb-0 mb-2 flex justify-center items-center">
@@ -144,6 +150,14 @@ const Dashboard2 = () => {
         >
           Buy
         </button>
+        {purchasedStocks.name === selectedCompany ? (
+          <button
+            className="p-3 ml-2 rounded-xl shadow-md bg-red-500 text-white font-bold"
+            onClick={sellStock}
+          >
+            Sell
+          </button>
+        ) : null}
       </div>
       <div className="min-h-screen min-w-[100vw] flex justify-center items-center -translate-y-2">
         <div
