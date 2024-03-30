@@ -2,6 +2,7 @@ import { createChart, CrosshairMode } from "lightweight-charts";
 import { useEffect, useRef, useState } from "react";
 import { useDispatch } from "react-redux";
 import { setSelectedStocks } from "../slices/selectedStocksSlice";
+import ReactSelect from "react-select";
 
 const Dashboard2 = () => {
   // const backgroundColor = "white";
@@ -115,23 +116,22 @@ const Dashboard2 = () => {
     dispatch(setSelectedStocks(stockDetails));
     console.log(stockDetails);
   };
+  const options = companyNames?.map((companyName: any) => ({
+    value: companyName.SYMBOL,
+    label: `${companyName.SYMBOL}, ${companyName["NAME OF COMPANY"]}`,
+  }));
   return (
     <div className="bg-[#343232] h-full">
       <div className="p-2 pb-0 mb-2 flex justify-center items-center">
-        <select
+        <ReactSelect
           className="p-3 w-[30vw] rounded-md"
           name="companyName"
           id="company"
-          value={selectedCompany}
-          onChange={(e) => setSelectedCompany(e.target.value)}
-        >
-          <option value="">Select Company</option>
-          {companyNames?.map((companyName: any) => (
-            <option key={companyName.SYMBOL} value={companyName.SYMBOL}>
-              {companyName.SYMBOL}, {companyName["NAME OF COMPANY"]}
-            </option>
-          ))}
-        </select>
+          value={options?.find((option) => option.value === selectedCompany)}
+          onChange={(option) => setSelectedCompany(option?.value)}
+          options={options}
+          isSearchable
+        />
         <button
           className="p-3 ml-2 rounded-xl shadow-md bg-slate-700 text-white font-bold"
           onClick={() => fetchData(`${selectedCompany}`)}
