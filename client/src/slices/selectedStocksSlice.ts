@@ -1,6 +1,16 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
-const initialState = {
+interface Stock {
+  stockName: string;
+  price: string;
+  date: string;
+}
+
+export interface SelectedStocksState {
+  data: Stock[];
+}
+
+const initialState: SelectedStocksState = {
   data: [
     {
       stockName: "Company",
@@ -10,11 +20,11 @@ const initialState = {
   ],
 };
 
-export const selectedStocksSlice = createSlice({
-  name: "selectedStocks",
+const selectedStocksSlice = createSlice({
+  name: 'selectedStocks',
   initialState,
   reducers: {
-    setSelectedStocks: (state, action: PayloadAction<any>) => {
+    setSelectedStocks: (state, action: PayloadAction<Stock>) => {
       state.data.push(action.payload);
     },
   },

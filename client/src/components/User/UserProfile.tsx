@@ -48,7 +48,7 @@ const UserProfile = () => {
 
   return (
     <>
-    
+
       <div className="flex flex-col items-center bg-gradient-to-b from-blue-500 to-white py-12 px-4 sm:px-6 lg:px-8 min-h-screen">
         <div className="max-w-md w-full space-y-8">
           <div>
@@ -82,9 +82,9 @@ const UserProfile = () => {
           <p className="text-3xl font-extrabold">My Stocks</p>
           <div className="bg-white min-h-[50vh] w-[60vw] rounded-xl">
             <div className="flex flex-col">
-              {purchasedStocks.map((stock) => {
+              {purchasedStocks.map((stock: any, index: number) => {
                 return (
-                  <div className="grid grid-cols-3">
+                  <div key={index} className="grid grid-cols-3">
                     <p className="text-xl font-bold text-center m-1">
                       {stock.stockName}
                     </p>
