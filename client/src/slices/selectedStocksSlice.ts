@@ -16,6 +16,7 @@ const initialState: SelectedStocksState = {
       stockName: "Company",
       price: "Purchase",
       date: "Date",
+      
     },
   ],
 };
@@ -27,8 +28,11 @@ const selectedStocksSlice = createSlice({
     setSelectedStocks: (state, action: PayloadAction<Stock>) => {
       state.data.push(action.payload);
     },
+    deleteSelectedStock: (state, action: PayloadAction<number>) => {
+      state.data.splice(action.payload, 1);
+    },
   },
 });
 
-export const { setSelectedStocks } = selectedStocksSlice.actions;
+export const { setSelectedStocks, deleteSelectedStock } = selectedStocksSlice.actions;
 export default selectedStocksSlice.reducer;

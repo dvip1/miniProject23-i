@@ -75,7 +75,7 @@ h1 {
 
 .my-container {
   height: 100vh;
-  background: linear-gradient(#3b82f6, white);
+  background: white;
   background-repeat: no-repeat;
   background-size: cover;
 }

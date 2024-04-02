@@ -121,7 +121,7 @@ const Dashboard2 = () => {
     label: `${companyName.SYMBOL}, ${companyName["NAME OF COMPANY"]}`,
   }));
   return (
-    <div className="bg-[#343232] h-full">
+    <div className="bg-white h-full">
       <div className="p-2 pb-0 mb-2 flex justify-center items-center">
         <ReactSelect
           className="p-3 w-[30vw] rounded-md"

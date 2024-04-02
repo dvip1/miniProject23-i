@@ -17,7 +17,6 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children }) => {
     useEffect(() => {
         const verifyAuth = async () => {
             const isAuth = await checkAuth(dispatch);
-            console.log(isAuth);
             if (!isAuth) {
                 setShouldRedirect(true);
             }

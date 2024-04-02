@@ -1,31 +1,21 @@
 import "./homeStyles.css";
 import { NavLink } from "react-router-dom";
 import candleStick from "../assets/candlestick-svgrepo-com.svg";
-import { useNavigate } from 'react-router-dom';
 import { useEffect } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import { checkAuth } from "./checkIfAuth";
+import { useSelector } from 'react-redux';
 import { RootState } from "../store/store";
 import { useHandleLogout } from "./handleLogOut";
 
 export default function RootNav() {
-  const navigate = useNavigate();
-  const dispatch = useDispatch();
+
   const handleLogOut = useHandleLogout();
   const isLoggedIn = useSelector((state: RootState) => state.auth.isLoggedIn);
   useEffect(() => {
-    const authenticate = async () => {
-      const isAuthenticated = await checkAuth(dispatch);
-      console.log(`is Logged in ${isLoggedIn}`);
-      if (!isAuthenticated) {
-        navigate("/");
-      }
-    };
-    authenticate();
-  }, []);
+
+  }, [isLoggedIn]);
   return (
     <>
-      <div className="bg-blue-500 flex justify-center ">
+      <div className="bg-white flex justify-center ">
         <nav className="max-w-3xl container" >
           <div className="flex justify-start">
             <NavLink to="/" className="navBrand">
