@@ -77,10 +77,10 @@ const UserProfile = () => {
                 return (
                   <div key={index} className="grid grid-cols-4 gap-4 items-center bg-gray-100 p-2 rounded-md">
                     <p className="text-xl font-bold text-center">{stock.stockName}</p>
-                    <p className="text-xl text-green-400 text-center">₹{stock.price}</p>
+                    <p className="text-xl text-center">{stock.price} (₹)</p>
                     <p className="text-xl text-center">{stock.date}</p>
                     {stock.stockName !== "Company" && (
-                      <button onClick={() => dispatch(deleteSelectedStock(index))} className="flex justify-center ">
+                      <button onClick={() => dispatch(deleteSelectedStock(index))} className="flex justify-center shadow-none ">
                         <TrashIcon className=" h-6 w-5 text-red-500" />
                       </button>
                     )}
