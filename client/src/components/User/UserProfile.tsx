@@ -4,7 +4,6 @@ import { useNavigate } from "react-router";
 import { useEffect, useState } from "react";
 import Loading from "../loading";
 import { useSelector } from "react-redux";
-import { CurrencyRupeeIcon } from "@heroicons/react/16/solid";
 import { useDispatch } from 'react-redux';
 import { deleteSelectedStock } from '../../slices/selectedStocksSlice';
 import { increaseCredit, decreaseCredit } from '../../slices/totalCreditSlice';
@@ -105,7 +104,7 @@ const UserProfile = () => {
                         }}
                         className="flex justify-center shadow-none "
                       >
-                        <CurrencyRupeeIcon className=" h-10 w-5 text-slate-500" />
+                          <span  className="font-sans text-blue-500">sell </span>
                       </button>
                     )}
                   </div>
