@@ -7,7 +7,7 @@ import { useSelector } from "react-redux";
 import { CurrencyRupeeIcon } from "@heroicons/react/16/solid";
 import { useDispatch } from 'react-redux';
 import { deleteSelectedStock } from '../../slices/selectedStocksSlice';
-import totalCreditSlice, { increaseCredit, decreaseCredit } from '../../slices/totalCreditSlice';
+import { increaseCredit, decreaseCredit } from '../../slices/totalCreditSlice';
 import { RootState } from '../../store/store';
 
 const UserProfile = () => {

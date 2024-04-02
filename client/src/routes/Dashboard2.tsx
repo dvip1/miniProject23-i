@@ -2,6 +2,9 @@ import { createChart, CrosshairMode } from "lightweight-charts";
 import { useEffect, useRef, useState } from "react";
 import { useDispatch } from "react-redux";
 import { setSelectedStocks } from "../slices/selectedStocksSlice";
+import { increaseCredit, decreaseCredit } from '../slices/totalCreditSlice';
+import { useSelector } from "react-redux";
+import { RootState } from '../store/store';
 import ReactSelect from "react-select";
 
 const Dashboard2 = () => {
@@ -14,6 +17,8 @@ const Dashboard2 = () => {
   const [companyNames, setCompanyNames] = useState<Array<string>>();
   const [selectedCompany, setSelectedCompany] = useState<string>();
   const [buyDetails, setBuyDetails] = useState();
+  const credit = useSelector((state: RootState) => state.credit.credit);
+
   const dispatch = useDispatch();
 
   const chartContainerRef = useRef<any>();
@@ -105,7 +110,18 @@ const Dashboard2 = () => {
         setData(cdata);
       });
   };
-
+  const BuySell = (amount: number, buy: boolean) => {
+    if (buy) {
+      if (credit >= amount) {
+        dispatch(decreaseCredit(amount));
+      } else {
+        console.log('Not enough credit to buy');
+      }
+    } else {
+      dispatch(increaseCredit(amount));
+      console.log(credit);
+    }
+  };
   const buyStock = () => {
     console.log(Data[Data.length - 1]);
     const stockDetails = {
@@ -114,7 +130,9 @@ const Dashboard2 = () => {
       date: Data[Data.length - 1].time,
     };
     dispatch(setSelectedStocks(stockDetails));
-    console.log(stockDetails);
+    BuySell(stockDetails.price, true)
+
+
   };
   const options = companyNames?.map((companyName: any) => ({
     value: companyName.SYMBOL,
