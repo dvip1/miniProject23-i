@@ -4,15 +4,18 @@ import { useNavigate } from "react-router";
 import { useEffect, useState } from "react";
 import Loading from "../loading";
 import { useSelector } from "react-redux";
-import { TrashIcon } from "@heroicons/react/16/solid";
+import { CurrencyRupeeIcon } from "@heroicons/react/16/solid";
 import { useDispatch } from 'react-redux';
 import { deleteSelectedStock } from '../../slices/selectedStocksSlice';
+import totalCreditSlice, { increaseCredit, decreaseCredit } from '../../slices/totalCreditSlice';
+import { RootState } from '../../store/store';
 
 const UserProfile = () => {
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const dispatch = useDispatch();
-
+  const credit = useSelector((state: RootState) => state.credit.credit);
+  const [takeCredit, setTakeCredit] = useState(credit)
   const [loading, setLoading] = useState(true); // Initialize loading state
   const purchasedStocks = useSelector(
     (state: any) => state.selectedStocks.data
@@ -21,6 +24,18 @@ const UserProfile = () => {
     const [localPart] = email.split('@');
     return localPart;
   }
+  const BuySell = (amount: number, buy: boolean) => {
+    if (buy) {
+      if (credit >= amount) {
+        dispatch(decreaseCredit(amount));
+      } else {
+        console.log('Not enough credit to buy');
+      }
+    } else {
+      dispatch(increaseCredit(amount));
+      console.log(credit);
+    }
+  };
 
   const checkAuth = async () => {
     try {
@@ -68,7 +83,9 @@ const UserProfile = () => {
             </h2>
           </div>
         </div>
-
+        <div>
+          <p className="text-sm"> Total Credit: {takeCredit}</p>
+        </div>
         <div className="mt-6">
           <p className="text-3xl text-center pb-4 font-medium	font-sans">My Stocks</p>
           <div className="bg-white min-h-[50vh] w-[60vw] rounded-xl p-4">
@@ -80,8 +97,15 @@ const UserProfile = () => {
                     <p className="text-xl text-center">{stock.price} (₹)</p>
                     <p className="text-xl text-center">{stock.date}</p>
                     {stock.stockName !== "Company" && (
-                      <button onClick={() => dispatch(deleteSelectedStock(index))} className="flex justify-center shadow-none ">
-                        <TrashIcon className=" h-6 w-5 text-red-500" />
+                      <button
+                        onClick={() => {
+                          BuySell(stock.price, false)
+                          setTakeCredit(stock.price + takeCredit)
+                          dispatch(deleteSelectedStock(index));
+                        }}
+                        className="flex justify-center shadow-none "
+                      >
+                        <CurrencyRupeeIcon className=" h-10 w-5 text-slate-500" />
                       </button>
                     )}
                   </div>

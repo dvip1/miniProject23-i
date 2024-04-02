@@ -19,7 +19,8 @@ export default function RootNav() {
         <nav className="max-w-3xl container" >
           <div className="flex justify-start">
             <NavLink to="/" className="navBrand">
-              <span className="bold">trade</span>vista
+              <span className="bold">trade</span>
+              <span className="transform rotate-180">vista</span>
             </NavLink>
           </div>
           <div className="flex justify-center items-center">
