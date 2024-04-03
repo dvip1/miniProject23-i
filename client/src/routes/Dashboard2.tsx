@@ -2,6 +2,10 @@ import { createChart, CrosshairMode } from "lightweight-charts";
 import { useEffect, useRef, useState } from "react";
 import { useDispatch } from "react-redux";
 import { setSelectedStocks } from "../slices/selectedStocksSlice";
+import { increaseCredit, decreaseCredit } from '../slices/totalCreditSlice';
+import { useSelector } from "react-redux";
+import { RootState } from '../store/store';
+import ReactSelect from "react-select";
 
 const Dashboard2 = () => {
   // const backgroundColor = "white";
@@ -13,6 +17,8 @@ const Dashboard2 = () => {
   const [companyNames, setCompanyNames] = useState<Array<string>>();
   const [selectedCompany, setSelectedCompany] = useState<string>();
   const [buyDetails, setBuyDetails] = useState();
+  const credit = useSelector((state: RootState) => state.credit.credit);
+
   const dispatch = useDispatch();
 
   const chartContainerRef = useRef<any>();
@@ -104,34 +110,51 @@ const Dashboard2 = () => {
         setData(cdata);
       });
   };
-
+  const BuySell = (amount: number, buy: boolean) => {
+    if (buy) {
+      if (credit >= amount) {
+        dispatch(decreaseCredit(amount));
+      } else {
+        console.log('Not enough credit to buy');
+      }
+    } else {
+      dispatch(increaseCredit(amount));
+      console.log(credit);
+    }
+  };
+  function checkIfNaN(amount: any) {
+    if (amount) return parseInt(amount)
+    else return 0;
+  }
   const buyStock = () => {
     console.log(Data[Data.length - 1]);
     const stockDetails = {
       stockName: selectedCompany,
       price: Data[Data.length - 1].low,
       date: Data[Data.length - 1].time,
+      quantity: 1
     };
     dispatch(setSelectedStocks(stockDetails));
-    console.log(stockDetails);
+    BuySell(stockDetails.price, true)
+
+
   };
+  const options = companyNames?.map((companyName: any) => ({
+    value: companyName.SYMBOL,
+    label: `${companyName.SYMBOL}, ${companyName["NAME OF COMPANY"]}`,
+  }));
   return (
-    <div className="bg-[#343232] h-full">
+    <div className="bg-white h-full">
       <div className="p-2 pb-0 mb-2 flex justify-center items-center">
-        <select
+        <ReactSelect
           className="p-3 w-[30vw] rounded-md"
           name="companyName"
           id="company"
-          value={selectedCompany}
-          onChange={(e) => setSelectedCompany(e.target.value)}
-        >
-          <option value="">Select Company</option>
-          {companyNames?.map((companyName: any) => (
-            <option key={companyName.SYMBOL} value={companyName.SYMBOL}>
-              {companyName.SYMBOL}, {companyName["NAME OF COMPANY"]}
-            </option>
-          ))}
-        </select>
+          value={options?.find((option) => option.value === selectedCompany)}
+          onChange={(option) => setSelectedCompany(option?.value)}
+          options={options}
+          isSearchable
+        />
         <button
           className="p-3 ml-2 rounded-xl shadow-md bg-slate-700 text-white font-bold"
           onClick={() => fetchData(`${selectedCompany}`)}

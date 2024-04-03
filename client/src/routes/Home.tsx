@@ -20,7 +20,7 @@ export default function Home() {
       <section className="my-container">
         <div className="  center ">
           <div className="text-center">
-            <h1 className="text-5xl text-white mb-0 pb-0">TradeVista</h1>
+            <h1 className="text-5xl text-black mb-0 pb-0">TradeVista</h1>
             <p className="text-base text-slate-700 mt-3 p-0">Your one-stop shop for risk-free trading education..</p>
             <div className="mt-6">
               <NavLink to="signup" className="inline-block mx-4 py-2 px-4 text-lg text-white bg-blue-500 rounded-3xl hover:bg-blue-700 ">Sign Up</NavLink>
