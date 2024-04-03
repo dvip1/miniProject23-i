@@ -122,12 +122,17 @@ const Dashboard2 = () => {
       console.log(credit);
     }
   };
+  function checkIfNaN(amount: any) {
+    if (amount) return parseInt(amount)
+    else return 0;
+  }
   const buyStock = () => {
     console.log(Data[Data.length - 1]);
     const stockDetails = {
       stockName: selectedCompany,
       price: Data[Data.length - 1].low,
       date: Data[Data.length - 1].time,
+      quantity: 1
     };
     dispatch(setSelectedStocks(stockDetails));
     BuySell(stockDetails.price, true)

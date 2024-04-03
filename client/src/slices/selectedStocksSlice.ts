@@ -4,6 +4,7 @@ interface Stock {
   stockName: string;
   price: string;
   date: string;
+  quantity: string
 }
 
 export interface SelectedStocksState {
@@ -16,7 +17,7 @@ const initialState: SelectedStocksState = {
       stockName: "Company",
       price: "Purchase",
       date: "Date",
-      
+      quantity: "Quantity",
     },
   ],
 };
@@ -26,7 +27,13 @@ const selectedStocksSlice = createSlice({
   initialState,
   reducers: {
     setSelectedStocks: (state, action: PayloadAction<Stock>) => {
-      state.data.push(action.payload);
+      const existingIndex = state.data.findIndex(stock => stock.stockName === action.payload.stockName);
+      if ((existingIndex !== -1)) {
+        state.data[existingIndex].quantity += action.payload.quantity;
+        state.data[existingIndex].price += action.payload.price
+      }
+      else
+        state.data.push(action.payload);
     },
     deleteSelectedStock: (state, action: PayloadAction<number>) => {
       state.data.splice(action.payload, 1);

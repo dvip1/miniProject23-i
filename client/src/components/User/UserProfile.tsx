@@ -91,10 +91,11 @@ const UserProfile = () => {
             <div className="flex flex-col space-y-4">
               {purchasedStocks.map((stock: any, index: number) => {
                 return (
-                  <div key={index} className="grid grid-cols-4 gap-4 items-center bg-gray-100 p-2 rounded-md">
+                  <div key={index} className="grid grid-cols-5 gap-2 items-center bg-gray-200 p-2 rounded-md">
                     <p className="text-xl font-bold text-center">{stock.stockName}</p>
                     <p className="text-xl text-center">{stock.price} (₹)</p>
                     <p className="text-xl text-center">{stock.date}</p>
+                    <p className="text-xl text-center">{stock.quantity}</p>
                     {stock.stockName !== "Company" && (
                       <button
                         onClick={() => {
@@ -104,7 +105,7 @@ const UserProfile = () => {
                         }}
                         className="flex justify-center shadow-none "
                       >
-                          <span  className="font-sans text-blue-500">sell </span>
+                        <span className="font-sans text-blue-500">sell </span>
                       </button>
                     )}
                   </div>
