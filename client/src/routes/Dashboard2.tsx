@@ -95,6 +95,7 @@ const Dashboard2 = () => {
       .then((response) => response.json())
       .then((data) => {
         const parsedData = JSON.parse(data.data);
+        
         //    console.log(parsedData);
         const cdata = parsedData.map((d: any) => {
           const date = new Date(d.Date);
