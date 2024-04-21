@@ -12,10 +12,12 @@ def get_data():
     print(sys)
 
     try:
-        dataFrame = pd.read_csv(f"Data/{sys}.csv")
+        dataFrame = yf.Ticker(sys + '.NS').history(period="max")
+        dataFrame.reset_index(inplace=True)  
+        dataFrame['Date'] = dataFrame['Date'].dt.strftime('%Y-%m-%d')  # Convert dates to 'YYYY-MM-DD' format
         data = dataFrame.to_json(orient='records')
         return jsonify({'data': data})
 
     except Exception as e:
-        print(f"Sorry, there has been an error {e} for file {sys}")
+        print(f"Sorry, there has been an error {e} for symbol {sys}")
         return jsonify({'error': str(e)})
