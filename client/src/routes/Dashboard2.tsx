@@ -6,6 +6,25 @@ import { increaseCredit, decreaseCredit } from '../slices/totalCreditSlice';
 import { useSelector } from "react-redux";
 import { RootState } from '../store/store';
 import ReactSelect from "react-select";
+const dateOptions = [
+  { value: '1d', label: '1d' },
+  { value: '5d', label: '5d' },
+  { value: '1mo', label: '1mo' },
+  { value: '3mo', label: '3mo' },
+  { value: '6mo', label: '6mo' },
+  { value: '1y', label: '1y' },
+  { value: '2y', label: '2y' },
+  { value: '5y', label: '5y' },
+  { value: '10y', label: '10y' },
+  { value: 'ytd', label: 'ytd' },
+  { value: 'max', label: 'max' },
+];
+interface Recommendation {
+  RECOMMENDATION: string;
+  BUY: number;
+  SELL: number;
+  NEUTRAL: number;
+}
 
 const Dashboard2 = () => {
   // const backgroundColor = "white";
@@ -17,7 +36,9 @@ const Dashboard2 = () => {
   const [companyNames, setCompanyNames] = useState<Array<string>>();
   const [selectedCompany, setSelectedCompany] = useState<string>();
   const [buyDetails, setBuyDetails] = useState();
+  const [selectedPeriod, setSelectedPeriod] = useState<string>();
   const credit = useSelector((state: RootState) => state.credit.credit);
+  const [recommendation, setRecommendation] = useState<Recommendation | null>(null);
 
   const dispatch = useDispatch();
 
@@ -83,19 +104,21 @@ const Dashboard2 = () => {
   }, []);
 
   const fetchData = async (buttonValue: string) => {
+    const params = {
+      button_value: buttonValue,
+      period: selectedPeriod || '1mo'  // Use '1d' as a default value if selectedPeriod is undefined
+    };
     await fetch("http://localhost:5000/get_data", {
       method: "POST",
       headers: {
         "Content-Type": "application/x-www-form-urlencoded",
       },
-      body: new URLSearchParams({
-        button_value: buttonValue,
-      }),
+      body: new URLSearchParams(params),
     })
       .then((response) => response.json())
       .then((data) => {
         const parsedData = JSON.parse(data.data);
-        
+        setRecommendation(data.recommend);
         //    console.log(parsedData);
         const cdata = parsedData.map((d: any) => {
           const date = new Date(d.Date);
@@ -146,7 +169,27 @@ const Dashboard2 = () => {
   }));
   return (
     <div className="bg-white h-full">
-      <div className="p-2 pb-0 mb-2 flex justify-center items-center">
+      <div className="reccomend flex justify-center">
+        <p>
+          Recommendation:
+          <span className={recommendation?.RECOMMENDATION === 'BUY' ? 'text-green-500' : 'text-red-500'}>
+            <span className="text-lg"> {recommendation?.RECOMMENDATION} </span>
+          </span>
+          <br />
+          <span className="px-2"> <span className="text-md ">Sell </span>: {recommendation?.SELL} </span>
+          <span className="px-2"> <span className="text-md ">Buy </span>: {recommendation?.BUY} </span>
+          <span className="px-2"> <span className="text-md ">Neutral </span>: {recommendation?.NEUTRAL}</span>
+        </p>
+      </div>
+      <div className="p-2 pb-0  flex justify-center items-center">
+        <ReactSelect
+          className="p-3 w-[10vw] rounded-md"
+          name="period"
+          id="period"
+          options={dateOptions}
+          defaultValue={dateOptions[2]}  // Set default value to '1d'
+          onChange={(option) => setSelectedPeriod(option?.value)}  // Update selectedInterval when the selected option changes
+        />
         <ReactSelect
           className="p-3 w-[30vw] rounded-md"
           name="companyName"
@@ -156,19 +199,25 @@ const Dashboard2 = () => {
           options={options}
           isSearchable
         />
+
         <button
-          className="p-3 ml-2 rounded-xl shadow-md bg-slate-700 text-white font-bold"
+          className=" px-3 py-3 rounded-xl shadow-xl bg-slate-700 text-white font-bold"
           onClick={() => fetchData(`${selectedCompany}`)}
         >
           Get Data
         </button>
+
+
+      </div>
+      <div className="filters  mb-5 flex justify-center items-center">
+
         <button
           className="p-3 ml-2 rounded-xl shadow-md bg-green-600 text-white font-bold"
           onClick={buyStock}
         >
           Buy
         </button>
-      </div>
+      </div >
       <div className="min-h-screen min-w-[100vw] flex justify-center items-center -translate-y-2">
         <div
           className="overflow-clip rounded-2xl w-min flex justify-center items-center"
@@ -176,7 +225,7 @@ const Dashboard2 = () => {
           ref={chartContainerRef}
         ></div>
       </div>
-    </div>
+    </div >
   );
 };
 export default Dashboard2;
