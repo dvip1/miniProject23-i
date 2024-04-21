@@ -171,14 +171,15 @@ const Dashboard2 = () => {
     <div className="bg-white h-full">
       <div className="reccomend flex justify-center">
         <p>
-          Recommendation:
+          Recommend:
           <span className={recommendation?.RECOMMENDATION === 'BUY' ? 'text-green-500' : 'text-red-500'}>
             <span className="text-lg"> {recommendation?.RECOMMENDATION} </span>
           </span>
-          <br />
-          <span className="px-2"> <span className="text-md ">Sell </span>: {recommendation?.SELL} </span>
-          <span className="px-2"> <span className="text-md ">Buy </span>: {recommendation?.BUY} </span>
-          <span className="px-2"> <span className="text-md ">Neutral </span>: {recommendation?.NEUTRAL}</span>
+        </p>
+        <p className="">
+          <span className="p-2 bg-slate-100 mx-2 rounded-lg "> <span className="text-md ">Sell </span>: {recommendation?.SELL} </span>
+          <span className="p-2 bg-slate-100 mx-2 rounded-lg "> <span className="text-md ">Buy </span>: {recommendation?.BUY} </span>
+          <span className="p-2 bg-slate-100 mx-2 rounded-lg "> <span className="text-md ">Neutral </span>: {recommendation?.NEUTRAL}</span>
         </p>
       </div>
       <div className="p-2 pb-0  flex justify-center items-center">
