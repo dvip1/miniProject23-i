@@ -56,7 +56,7 @@ const CandleStick: React.FC<ChartProps> = ({ data }) => {
 
     return (
         <div
-            className="overflow-clip rounded-2xl w-min flex justify-center items-center"
+            className="overflow-clip rounded-2xl w-full flex justify-center items-center"
             id="tvchart"
             ref={chartContainerRef}
         ></div>

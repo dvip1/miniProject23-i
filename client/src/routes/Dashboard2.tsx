@@ -68,7 +68,7 @@ const Dashboard2 = () => {
         <BuyStockInput quantity={quantity} setQuantity={setQuantity} buyStock={buyStock} />
 
       </div >
-      <div className="min-h-screen min-w-[100vw] flex justify-center items-center -translate-y-2">
+      <div className=" flex justify-center items-center -translate-y-2">
         <CandleStick data={Data} />
       </div>
     </div >

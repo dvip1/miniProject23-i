@@ -10,7 +10,18 @@ export interface RecommendationInterface {
 interface RecommendationDisplayProps {
     recommendation: RecommendationInterface | null;
 }
+function checkWhichRecommendation(input: string) {
+    if (input === 'STRONG_BUY' || input === 'BUY') return 'one';
+    else if (input === 'STRONG_SELL' || input === 'SELL') return 'zero';
+    else return 'two';
+}
+function giveStyle(foo: string, boo: string) {
+    if (checkWhichRecommendation(foo) === boo) return 'bg-[#D0E7D2]'
 
+    return ''
+
+
+}
 const RecommendationDisplay: React.FC<RecommendationDisplayProps> = ({
     recommendation,
 }) => {
@@ -20,33 +31,23 @@ const RecommendationDisplay: React.FC<RecommendationDisplayProps> = ({
                 recommendation ? `recommend flex justify-center` : `hidden`
             }
         >
+
             <p>
-                Recommendation:
-                <span
-                    className={
-                        recommendation?.RECOMMENDATION === 'BUY'
-                            ? 'text-green-500'
-                            : 'text-red-500'
-                    }
-                >
-                    <span className="text-lg"> {recommendation?.RECOMMENDATION} </span>
-                </span>
-                <br />
-                <span className="px-2">
+                <span className={`p-2  mx-1 rounded-lg border-2 border-[#64CCC5] ${giveStyle(recommendation?.RECOMMENDATION, `zero`)}`}>
                     {' '}
                     <span className="text-md ">Sell </span>: {recommendation?.SELL}{' '}
                 </span>
-                <span className="px-2">
+                <span className={`p-2 ${giveStyle(recommendation?.RECOMMENDATION, `one`)} mx-1 rounded-lg border-2 border-[#64CCC5]`}>
                     {' '}
                     <span className="text-md ">Buy </span>: {recommendation?.BUY}{' '}
                 </span>
-                <span className="px-2">
+                <span className={`p-2 ${giveStyle(recommendation?.RECOMMENDATION, `two`)} mx-1 rounded-lg border-2 border-[#64CCC5]`}>
                     {' '}
                     <span className="text-md ">Neutral </span>:
                     {recommendation?.NEUTRAL}
                 </span>
             </p>
-        </div>
+        </div >
     );
 };
 
