@@ -10,12 +10,12 @@ import BuySell from "../utils/buySell";
 
 const Dashboard2 = () => {
 
-  const [Data, setData] = useState();
-  const [companyNames, setCompanyNames] = useState<Array<string>>();
-  const [selectedCompany, setSelectedCompany] = useState<string>();
-  const [selectedPeriod, setSelectedPeriod] = useState<string>();
+  const [thisData, setThisData] = useState();
+  const [currentCompanyNames, setCurrentCompanyNames] = useState<Array<string>>();
+  const [currentSelectedCompany, setCurrentSelectedCompany] = useState<string>();
+  const [currentSelectedPeriod, setCurrentSelectedPeriod] = useState<string>();
   const [recommendation, setRecommendation] = useState<RecommendationInterface | null>(null);
-  
+
   const [quantity, setQuantity] = useState(1);
   const dispatch = useDispatch();
 
@@ -26,32 +26,33 @@ const Dashboard2 = () => {
         .then((data) => {
           const parsedData = JSON.parse(data.data);
           //   console.log(parsedData);
-          setCompanyNames(parsedData);
+          setCurrentCompanyNames(parsedData);
         });
     };
     getCompanyNames();
   }, []);
 
   const fetchDataAndSetData = async (buttonValue: string) => {
-    const { data, recommend } = await fetchData(buttonValue, selectedPeriod);
-    setData(data);
+    const { data, recommend } = await fetchData(buttonValue, currentSelectedPeriod);
+    setThisData(data);
     setRecommendation(recommend);
 
   };
 
   const buyStock = () => {
-    console.log(Data[Data.length - 1]);
+    if (!thisData) return 0;
+    console.log(thisData[thisData.length - 1]);
     const stockDetails = {
-      stockName: selectedCompany,
-      price: Data[Data.length - 1].low,
-      date: Data[Data.length - 1].time,
+      stockName: currentSelectedCompany,
+      price: thisData[thisData.length - 1].low,
+      date: thisData[thisData.length - 1].time,
       quantity: quantity
     };
     dispatch(setSelectedStocks(stockDetails));
     BuySell(stockDetails.price, true, dispatch)
     window.alert('Virtual Transaction complete ')
   };
-  const options = companyNames?.map((companyName: any) => ({
+  const options = currentCompanyNames?.map((companyName: any) => ({
     value: companyName.SYMBOL,
     label: `${companyName.SYMBOL}, ${companyName["NAME OF COMPANY"]}`,
   }));
@@ -59,9 +60,9 @@ const Dashboard2 = () => {
     <div className="bg-white h-full">
       <RecommendationDisplay recommendation={recommendation} />
       <div className="p-2 pb-0  flex justify-center items-center">
-        <PeriodSelector setSelectedPeriod={setSelectedPeriod} />
-        <CompanySelector options={options} selectedCompany={selectedCompany} setSelectedCompany={setSelectedCompany} />
-        <FetchDataButton fetchData={fetchDataAndSetData} selectedCompany={selectedCompany} />
+        <PeriodSelector setSelectedPeriod={setCurrentSelectedPeriod} />
+        <CompanySelector options={options} selectedCompany={currentSelectedCompany} setSelectedCompany={setCurrentSelectedCompany} />
+        <FetchDataButton fetchData={fetchDataAndSetData} selectedCompany={currentSelectedCompany} />
 
       </div>
       <div className="filters  mb-5 flex justify-center items-center">
@@ -69,7 +70,7 @@ const Dashboard2 = () => {
 
       </div >
       <div className=" flex justify-center items-center -translate-y-2">
-        <CandleStick data={Data} />
+        <CandleStick data={thisData} />
       </div>
     </div >
   );
