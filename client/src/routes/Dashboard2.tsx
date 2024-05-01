@@ -7,7 +7,11 @@ import CandleStick from "../components/candleStick";
 import { PeriodSelector, CompanySelector, FetchDataButton, BuyStockInput } from "../components/DashboardSelectors";
 import fetchData from "../utils/fetchdata";
 import BuySell from "../utils/buySell";
-
+import { StockDataServiceCreate } from "../services/StockDataService";
+import { StockDataInterface } from "../services/StockDataService";
+function roundToTwoDecimals(num: number) {
+  return parseInt(num.toFixed(2));
+}
 const Dashboard2 = () => {
 
   const [thisData, setThisData] = useState();
@@ -44,13 +48,21 @@ const Dashboard2 = () => {
     console.log(thisData[thisData.length - 1]);
     const stockDetails = {
       stockName: currentSelectedCompany,
-      price: thisData[thisData.length - 1].low,
+      price: roundToTwoDecimals(thisData[thisData.length - 1].low),
       date: thisData[thisData.length - 1].time,
       quantity: quantity
     };
     dispatch(setSelectedStocks(stockDetails));
-    BuySell(stockDetails.price, true, dispatch)
-    window.alert('Virtual Transaction complete ')
+    BuySell(stockDetails.price, true, dispatch);
+    const postStockData: StockDataInterface = {
+      stockName: stockDetails.stockName,
+      purchasedDate: stockDetails.date,
+      purchasedPrice: stockDetails.price,
+      quantity: stockDetails.quantity,
+      currentPrice: stockDetails.price
+    }
+    StockDataServiceCreate(postStockData)
+    window.alert('Virtual Transaction complete ');
   };
   const options = currentCompanyNames?.map((companyName: any) => ({
     value: companyName.SYMBOL,

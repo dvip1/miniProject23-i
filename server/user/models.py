@@ -1,7 +1,7 @@
 from flask import Flask, jsonify, request, session
 import uuid
 from passlib.hash import pbkdf2_sha256
-from user.database import db
+from model.database import db
 
 class User:
     def signup(self):
@@ -23,7 +23,8 @@ class User:
             }
             if db.users.insert_one(user):
                 session['user_id'] = user['_id']  # Store user ID in session
-                user.pop('password', None)  # Remove password before returning user
+                # Remove password before returning user
+                user.pop('password', None)
                 return jsonify('User created'), 200
 
             return jsonify({'error': 'Signup failed'}), 400
@@ -43,18 +44,20 @@ class User:
 
             if user and pbkdf2_sha256.verify(password, user['password']):
                 session['user_id'] = user['_id']  # Store user ID in session
-                user.pop('password', None)  # Remove password before returning user
+                # Remove password before returning user
+                user.pop('password', None)
                 return jsonify(user), 200
 
             return jsonify({'error': 'Invalid login credentials'}), 401
         except Exception as e:
             return jsonify({'error': str(e)}), 500
-        
+
     def is_authenticated(self):
         try:
             if 'user_id' in session:
                 user = db.users.find_one({'_id': session['user_id']})
-                user.pop('password', None)  # Remove password before returning user
+                # Remove password before returning user
+                user.pop('password', None)
                 return jsonify(user), 200
             else:
                 return jsonify({'error': 'No user is currently signed in'}), 400

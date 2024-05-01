@@ -6,8 +6,9 @@ import Loading from "../loading";
 import { useSelector } from "react-redux";
 import { useDispatch } from 'react-redux';
 import { deleteSelectedStock } from '../../slices/selectedStocksSlice';
-import { increaseCredit, decreaseCredit } from '../../slices/totalCreditSlice';
 import { RootState } from '../../store/store';
+import buySell from "../../utils/buySell";
+import { DeleteStockData } from "../../services/StockDataService";
 
 const UserProfile = () => {
   const navigate = useNavigate();
@@ -23,18 +24,7 @@ const UserProfile = () => {
     const [localPart] = email.split('@');
     return localPart;
   }
-  const BuySell = (amount: number, buy: boolean) => {
-    if (buy) {
-      if (credit >= amount) {
-        dispatch(decreaseCredit(amount));
-      } else {
-        console.log('Not enough credit to buy');
-      }
-    } else {
-      dispatch(increaseCredit(amount));
-      console.log(credit);
-    }
-  };
+
 
   const checkAuth = async () => {
     try {
@@ -99,9 +89,10 @@ const UserProfile = () => {
                     {stock.stockName !== "Company" && (
                       <button
                         onClick={() => {
-                          BuySell(stock.price, false)
+                          buySell(stock.price, false, dispatch)
                           setTakeCredit(stock.price + takeCredit)
                           dispatch(deleteSelectedStock(index));
+                          DeleteStockData(stock.stockName)
                         }}
                         className="flex justify-center shadow-none "
                       >

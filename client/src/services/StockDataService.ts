@@ -1,17 +1,24 @@
 import axios from "axios"
 export interface StockDataInterface {
-    stockName: string
+    stockName: string | undefined
     purchasedPrice: number
     purchasedDate: string
     quantity: number
     currentPrice: number
 }
-interface postStockDataInterface extends StockDataInterface {
+export interface postStockDataInterface extends StockDataInterface {
     userId: string
 }
 const fetchUserData = async () => {
     try {
-        const response = await axios.get('http://localhost:5000/is_authenticated')
+        const response = await axios.get("http://localhost:5000/is_authenticated",
+            {
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                withCredentials: true,
+            }
+        )
         return response.data;
     }
     catch (error) {
@@ -26,7 +33,7 @@ const getUserID = async () => {
 const postStockData = async (props: postStockDataInterface) => {
     try {
         await axios.post(
-            "http://localhost:5000/post/stock-data",
+            "http://localhost:5000/stock-data/create",
             props, // send props directly
             {
                 headers: {
@@ -40,7 +47,7 @@ const postStockData = async (props: postStockDataInterface) => {
         console.error('Error fetching the data' + error);
     }
 }
-export default async function StockDataService(props: StockDataInterface) {
+export async function StockDataServiceCreate(props: StockDataInterface) {
     const userID = await getUserID();
     const userStockData: postStockDataInterface = {
         userId: userID,
@@ -51,5 +58,27 @@ export default async function StockDataService(props: StockDataInterface) {
         purchasedPrice: props.purchasedPrice
     }
     await postStockData(userStockData);
+}
 
+export async function DeleteStockData(stockName: string) {
+    const userID = await getUserID();
+    try {
+        await axios.post(
+            "http://localhost:5000/stock-data/delete",
+            {
+                stockName: stockName,
+                userId: userID
+            }, // send props directly
+            {
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                withCredentials: true,
+            }
+
+        )
+    }
+    catch (error) {
+        console.log(`Error deleting the data ${error}`)
+    }
 }
