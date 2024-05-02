@@ -1,6 +1,6 @@
 import yfinance as yf
 import logging
-from flask import json, request
+from flask import Blueprint, request, jsonify
 get_stockDetails = Blueprint('GetStockDetails_api', __name__)
 
 
@@ -8,9 +8,12 @@ get_stockDetails = Blueprint('GetStockDetails_api', __name__)
 def GetStockDetails():
     try:
         data = request.get_json()
-        sym = data.sym
+        logging.info(f"This is the data I'm getting {data}")
+        sym = data.get('sym') + '.NS'
+        logging.info(f"This is sym: {sym}")
         ticker_data = yf.Ticker(sym)
-        return ticker_data.info
+        # Convert the ticker data to a dictionary before returning
+        return jsonify(ticker_data.info), 200
     except Exception as err:
-        logging.error(f"Error while get-details: ${err}")
-        return 0
+        logging.error(f"Error while get-details: {err}")
+        return jsonify({"err": f"some error has occured {err}"}), 500

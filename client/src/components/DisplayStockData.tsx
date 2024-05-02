@@ -4,6 +4,7 @@ import Loading from "./loading";
 import { DeleteStockData } from "../services/StockDataService";
 import buySell from "../utils/buySell";
 import { useDispatch } from 'react-redux';
+import GetStockDetails from "../services/getStockDetails";
 
 interface StockData {
     stockname: string;
@@ -17,6 +18,7 @@ interface ModalProps {
     onClose: () => void;
     modalSelectedStock: StockData | null
     dispatch: Dispatch<any>
+    sideDetails: any
 }
 
 function calProfitLoss(currentPrice: number, purchasedPrice: number, quantity: number) {
@@ -24,7 +26,7 @@ function calProfitLoss(currentPrice: number, purchasedPrice: number, quantity: n
     return parseFloat(result.toFixed(2));
 }
 
-const Modal: React.FC<ModalProps> = ({ isOpen, onClose, modalSelectedStock, dispatch }) => {
+const Modal: React.FC<ModalProps> = ({ isOpen, onClose, modalSelectedStock, dispatch, sideDetails }) => {
     if (!isOpen || !modalSelectedStock) return null;
 
     return (
@@ -42,11 +44,23 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose, modalSelectedStock, disp
                             <span className="sr-only">Close modal</span>
                         </button>
                     </div>
-                    <div className="p-4 md:p-5 space-y-4">
-                        <p className="text-base leading-relaxed text-gray-500">
-                            Modal Content Goes Here
-                        </p>
-                    </div>
+                    {sideDetails && (
+                        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 p-5 rounded shadow overflow-hidden">
+                            <h2 className="col-span-full text-lg font-bold">{sideDetails.longName}</h2>
+                            <p>Current Price: ${sideDetails.currentPrice}</p>
+                            <p>Volume: {sideDetails.volume}</p>
+                            <p>Average Daily Volume (10 Day): {sideDetails.averageDailyVolume10Day}</p>
+                            <p>Sector: {sideDetails.sector}</p>
+                            <p>Industry: {sideDetails.industry}</p>
+                            <p>Price to Book: {sideDetails.priceToBook}</p>
+                            <p>Price to Sales (Trailing 12 Months): {sideDetails.priceToSalesTrailing12Months}</p>
+                            <p>Return on Assets: {sideDetails.returnOnAssets}</p>
+                            <p>Return on Equity: {sideDetails.returnOnEquity}</p>
+                            <p>Address: {sideDetails.address1}</p>
+                            <p>Country: {sideDetails.country}</p>
+                            <p>Website: <a href={sideDetails.website} target="_blank" rel="noopener noreferrer">{sideDetails.website}</a></p>
+                        </div>
+                    )}
                     <div className="flex items-center p-4 md:p-5 border-t border-gray-200 rounded-b ">
                         <button type="button" className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
                             onClick={async () => {
@@ -67,6 +81,8 @@ export default function DisplayStockData() {
     const [selectedStock, setSelectedStock] = useState<StockData | null>(null);
     const [data, setData] = useState<StockData[] | null>(null);
     const [isOpen, setIsOpen] = useState(false);
+    const [sideDetails, setSideDetails] = useState();
+
     const openModal = () => setIsOpen(true);
     const closeModal = () => setIsOpen(false);
     useEffect(() => {
@@ -74,9 +90,13 @@ export default function DisplayStockData() {
             const result = await ReadAndUpdateStockData();
             setData(JSON.parse(result));
         };
-
+        const fetchStockDetails = async (sym: string) => {
+            const details = await GetStockDetails(sym); // replace 'AAPL' with your stock symbol
+            setSideDetails(details);
+        }
+        selectedStock?.stockname && fetchStockDetails(selectedStock?.stockname)
         fetchData();
-    }, []);
+    }, [selectedStock]);
 
     if (data === null) {
         return <Loading />;
@@ -117,7 +137,7 @@ export default function DisplayStockData() {
                                 ))}
                             </tbody>
                         </table>
-                        <Modal isOpen={isOpen} onClose={closeModal} modalSelectedStock={selectedStock} dispatch={dispatch} />
+                        <Modal isOpen={isOpen} onClose={closeModal} modalSelectedStock={selectedStock} dispatch={dispatch} sideDetails={sideDetails} />
                     </div>
                 </div>
             </div>

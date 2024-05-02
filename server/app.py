@@ -9,6 +9,7 @@ from user.isAuthenticated import is_authenticated_api
 from api.getCompData import getCompanyNames_api
 from api.liveupdate import liveUpdate_api
 from api.stockController import stock_api
+from api.getStockDetails import get_stockDetails
 import secrets
 from datetime import timedelta
 
@@ -28,5 +29,6 @@ app.register_blueprint(is_authenticated_api)
 app.register_blueprint(getCompanyNames_api)
 app.register_blueprint(liveUpdate_api)
 app.register_blueprint(stock_api)
+app.register_blueprint(get_stockDetails)
 if __name__ == "__main__":
     app.run(debug=True)

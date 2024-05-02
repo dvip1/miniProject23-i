@@ -7,13 +7,15 @@ import CandleStick from "../components/candleStick";
 import { PeriodSelector, CompanySelector, FetchDataButton, BuyStockInput } from "../components/DashboardSelectors";
 import fetchData from "../utils/fetchdata";
 import BuySell from "../utils/buySell";
+import GetStockDetails from "../services/getStockDetails";
 import { StockDataServiceCreate } from "../services/StockDataService";
 import { StockDataInterface } from "../services/StockDataService";
+
 function roundToTwoDecimals(num: number) {
   return parseInt(num.toFixed(2));
 }
 const Dashboard2 = () => {
-
+  const [sideDetails, setSideDetails] = useState();
   const [thisData, setThisData] = useState();
   const [currentCompanyNames, setCurrentCompanyNames] = useState<Array<string>>();
   const [currentSelectedCompany, setCurrentSelectedCompany] = useState<string>();
@@ -34,7 +36,13 @@ const Dashboard2 = () => {
         });
     };
     getCompanyNames();
-  }, []);
+    const fetchStockDetails = async (sym: string) => {
+      const details = await GetStockDetails(sym); // replace 'AAPL' with your stock symbol
+      setSideDetails(details);
+    };
+
+    currentSelectedCompany && fetchStockDetails(currentSelectedCompany);
+  }, [currentSelectedCompany]);
 
   const fetchDataAndSetData = async (buttonValue: string) => {
     const { data, recommend } = await fetchData(buttonValue, currentSelectedPeriod);
@@ -83,6 +91,19 @@ const Dashboard2 = () => {
       </div >
       <div className=" flex justify-center items-center -translate-y-2">
         <CandleStick data={thisData} />
+      </div>
+      <div className="text-center">
+        {sideDetails && (
+          <div className="mt-5 mb-10 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 bg-gray-100 p-5 rounded shadow">
+            <p>Symbols: <span className="font-medium">{sideDetails.symbol}</span></p>
+            <p>Current Price: <span className="font-medium">{sideDetails.currentPrice}</span></p>
+            <p>Day High: <span className="font-medium">{sideDetails.dayHigh}</span></p>
+            <p>Day Low: <span className="font-medium">{sideDetails.dayLow}</span></p>
+            <p>Open: <span className="font-medium">{sideDetails.open}</span></p>
+            <p>Previous Close: <span className="font-medium">{sideDetails.previousClose}</span></p>
+            <p>Volume: <span className="font-medium">{sideDetails.volume}</span></p>
+          </div>
+        )}
       </div>
     </div >
   );
