@@ -9,7 +9,7 @@ import { deleteSelectedStock } from '../../slices/selectedStocksSlice';
 import { RootState } from '../../store/store';
 import buySell from "../../utils/buySell";
 import { DeleteStockData } from "../../services/StockDataService";
-
+import DisplayStockData from "../DisplayStockData";
 const UserProfile = () => {
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
@@ -53,7 +53,6 @@ const UserProfile = () => {
 
   useEffect(() => {
     checkAuth();
-    console.log(purchasedStocks);
   }, []);
 
   if (loading) {
@@ -76,9 +75,9 @@ const UserProfile = () => {
           <p className="text-sm"> Total Credit: {takeCredit}</p>
         </div>
         <div className="mt-6">
-          <p className="text-3xl text-center pb-4 font-medium	font-sans">My Stocks</p>
+          <p className="text-3xl text-center pb-4 font-medium	">My Stocks</p>
           <div className="bg-white min-h-[50vh] w-[60vw] rounded-xl p-4">
-            <div className="flex flex-col space-y-4">
+            {/* <div className="flex flex-col space-y-4">
               {purchasedStocks.map((stock: any, index: number) => {
                 return (
                   <div key={index} className="grid grid-cols-5 gap-2 items-center bg-gray-200 p-2 rounded-md">
@@ -102,7 +101,8 @@ const UserProfile = () => {
                   </div>
                 );
               })}
-            </div>
+            </div> */}
+            <DisplayStockData />
           </div>
         </div>
       </div>

@@ -82,3 +82,23 @@ export async function DeleteStockData(stockName: string) {
         console.log(`Error deleting the data ${error}`)
     }
 }
+export async function ReadAndUpdateStockData() {
+    const userId = await getUserID();
+    try {
+        const response = await axios.post(
+            "http://localhost:5000/stock-data/read",
+            { userId: userId },
+            {
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                withCredentials: true
+            }
+        )
+        return response.data;
+    }
+    catch (error) {
+        console.error(`Error in reading and updating the data ${error}`);
+        return 0;
+    }
+}
