@@ -33,8 +33,8 @@ const Dashboard2 = () => {
           const parsedData = JSON.parse(data.data);
           //   console.log(parsedData);
           setCurrentCompanyNames(parsedData);
-        }[=
-    };
+        }
+   ) };
     getCompanyNames();
     const fetchStockDetails = async (sym: string) => {
       const details = await GetStockDetails(sym); // replace 'AAPL' with your stock symbol
