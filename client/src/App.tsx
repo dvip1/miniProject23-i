@@ -7,6 +7,7 @@ import Dashboard from "./routes/Dashboard";
 import Dashboard2 from "./routes/Dashboard2";
 import RootNav from "./components/homeNav";
 import ProtectedRoute from "./components/protectedRoute";
+import Crypto from "./components/crypto";
 function App() {
   return (
     <div>
@@ -26,7 +27,7 @@ function App() {
               </ProtectedRoute>
             }
           />
-
+          <Route path="/crypto" element={<Crypto />} />
         </Routes>
       </BrowserRouter>
     </div>

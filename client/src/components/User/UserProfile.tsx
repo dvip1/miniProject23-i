@@ -6,9 +6,10 @@ import Loading from "../loading";
 import { useSelector } from "react-redux";
 import { useDispatch } from 'react-redux';
 import { deleteSelectedStock } from '../../slices/selectedStocksSlice';
-import { increaseCredit, decreaseCredit } from '../../slices/totalCreditSlice';
 import { RootState } from '../../store/store';
-
+import buySell from "../../utils/buySell";
+import { DeleteStockData } from "../../services/StockDataService";
+import DisplayStockData from "../DisplayStockData";
 const UserProfile = () => {
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
@@ -23,18 +24,7 @@ const UserProfile = () => {
     const [localPart] = email.split('@');
     return localPart;
   }
-  const BuySell = (amount: number, buy: boolean) => {
-    if (buy) {
-      if (credit >= amount) {
-        dispatch(decreaseCredit(amount));
-      } else {
-        console.log('Not enough credit to buy');
-      }
-    } else {
-      dispatch(increaseCredit(amount));
-      console.log(credit);
-    }
-  };
+
 
   const checkAuth = async () => {
     try {
@@ -63,7 +53,6 @@ const UserProfile = () => {
 
   useEffect(() => {
     checkAuth();
-    console.log(purchasedStocks);
   }, []);
 
   if (loading) {
@@ -86,9 +75,9 @@ const UserProfile = () => {
           <p className="text-sm"> Total Credit: {takeCredit}</p>
         </div>
         <div className="mt-6">
-          <p className="text-3xl text-center pb-4 font-medium	font-sans">My Stocks</p>
+          <p className="text-3xl text-center pb-4 font-medium	">My Stocks</p>
           <div className="bg-white min-h-[50vh] w-[60vw] rounded-xl p-4">
-            <div className="flex flex-col space-y-4">
+            {/* <div className="flex flex-col space-y-4">
               {purchasedStocks.map((stock: any, index: number) => {
                 return (
                   <div key={index} className="grid grid-cols-5 gap-2 items-center bg-gray-200 p-2 rounded-md">
@@ -99,9 +88,10 @@ const UserProfile = () => {
                     {stock.stockName !== "Company" && (
                       <button
                         onClick={() => {
-                          BuySell(stock.price, false)
+                          buySell(stock.price, false, dispatch)
                           setTakeCredit(stock.price + takeCredit)
                           dispatch(deleteSelectedStock(index));
+                          DeleteStockData(stock.stockName)
                         }}
                         className="flex justify-center shadow-none "
                       >
@@ -111,7 +101,8 @@ const UserProfile = () => {
                   </div>
                 );
               })}
-            </div>
+            </div> */}
+            <DisplayStockData />
           </div>
         </div>
       </div>
