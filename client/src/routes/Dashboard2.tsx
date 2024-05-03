@@ -33,7 +33,7 @@ const Dashboard2 = () => {
           const parsedData = JSON.parse(data.data);
           //   console.log(parsedData);
           setCurrentCompanyNames(parsedData);
-        });
+        }[=
     };
     getCompanyNames();
     const fetchStockDetails = async (sym: string) => {
@@ -78,7 +78,9 @@ const Dashboard2 = () => {
   }));
   return (
     <div className="bg-white h-full">
+
       <RecommendationDisplay recommendation={recommendation} />
+
       <div className="p-2 pb-0  flex justify-center items-center">
         <PeriodSelector setSelectedPeriod={setCurrentSelectedPeriod} />
         <CompanySelector options={options} selectedCompany={currentSelectedCompany} setSelectedCompany={setCurrentSelectedCompany} />
