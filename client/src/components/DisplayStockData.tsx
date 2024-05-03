@@ -122,7 +122,7 @@ export default function DisplayStockData() {
                                 </tr>
                             </thead>
                             <tbody className="bg-white divide-y divide-gray-200 cursor-pointer">
-                                {data.map((item, i) => (
+                                {data?.map((item, i) => (
                                     <tr key={i} onClick={() => { setSelectedStock(item); openModal(); }}>
                                         <td className="px-6 py-4 whitespace-nowrap">
                                             <div className="text-sm text-gray-900">{item.stockname}</div>

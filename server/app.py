@@ -11,7 +11,9 @@ from api.liveupdate import liveUpdate_api
 from api.stockController import stock_api
 from api.getStockDetails import get_stockDetails
 import secrets
+from flask_socketio import SocketIO, send, emit
 from datetime import timedelta
+import websocket
 
 app = Flask(__name__)
 app.secret_key = secrets.token_hex(16)
