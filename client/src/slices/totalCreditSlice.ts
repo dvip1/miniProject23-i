@@ -12,6 +12,10 @@ const totalCreditSlice = createSlice({
     name: 'credit',
     initialState,
     reducers: {
+        setCredit: (state, action: PayloadAction<number>) => {
+            state.credit = action.payload
+        }
+        ,
         increaseCredit: (state, action: PayloadAction<number>) => {
             state.credit += action.payload;
         },
@@ -21,5 +25,5 @@ const totalCreditSlice = createSlice({
     }
 })
 
-export const { increaseCredit, decreaseCredit } = totalCreditSlice.actions;
+export const { increaseCredit, decreaseCredit, setCredit } = totalCreditSlice.actions;
 export default totalCreditSlice.reducer;

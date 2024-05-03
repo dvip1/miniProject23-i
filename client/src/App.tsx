@@ -8,7 +8,22 @@ import Dashboard2 from "./routes/Dashboard2";
 import RootNav from "./components/homeNav";
 import ProtectedRoute from "./components/protectedRoute";
 import Crypto from "./components/crypto";
+import { useEffect } from "react";
+import { setCredit } from "./slices/totalCreditSlice";
+import { useDispatch } from "react-redux";
+
 function App() {
+  const dispatch = useDispatch();
+  useEffect(() => {
+    let credit = localStorage.getItem("credit");
+    if (!credit) {
+      localStorage.setItem("credit", JSON.stringify(100000))
+      console.log()
+      credit = localStorage.getItem("credit");
+    }
+    credit && dispatch(setCredit(parseInt(credit)))
+
+  }, [])
   return (
     <div>
       <BrowserRouter>

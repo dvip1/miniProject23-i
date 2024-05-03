@@ -10,7 +10,9 @@ import BuySell from "../utils/buySell";
 import GetStockDetails from "../services/getStockDetails";
 import { StockDataServiceCreate } from "../services/StockDataService";
 import { StockDataInterface } from "../services/StockDataService";
-
+import { decreaseCredit } from "../slices/totalCreditSlice";
+import { RootState } from "../store/store";
+import { useSelector } from "react-redux";
 function roundToTwoDecimals(num: number) {
   return parseInt(num.toFixed(2));
 }
@@ -21,7 +23,7 @@ const Dashboard2 = () => {
   const [currentSelectedCompany, setCurrentSelectedCompany] = useState<string>();
   const [currentSelectedPeriod, setCurrentSelectedPeriod] = useState<string>();
   const [recommendation, setRecommendation] = useState<RecommendationInterface | null>(null);
-
+  const credit = useSelector((state: RootState) => state.credit)
   const [quantity, setQuantity] = useState(1);
   const dispatch = useDispatch();
 
@@ -34,7 +36,8 @@ const Dashboard2 = () => {
           //   console.log(parsedData);
           setCurrentCompanyNames(parsedData);
         }
-   ) };
+        )
+    };
     getCompanyNames();
     const fetchStockDetails = async (sym: string) => {
       const details = await GetStockDetails(sym); // replace 'AAPL' with your stock symbol
@@ -62,6 +65,8 @@ const Dashboard2 = () => {
     };
     dispatch(setSelectedStocks(stockDetails));
     BuySell(stockDetails.price, true, dispatch);
+    console.log(credit);
+    localStorage.setItem("credit", JSON.stringify(credit?.credit))
     const postStockData: StockDataInterface = {
       stockName: stockDetails.stockName,
       purchasedDate: stockDetails.date,
